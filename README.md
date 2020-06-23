@@ -24,10 +24,10 @@ The codes are stored in the folder [code](./code).
 
 ## How to reproduce
 
-* You must generate a folder (give a name) with additional 4 folders contained within: _input_, _output_, _code_, _tmp_.
-* Save raw data in _input_
-* Save Stata codes in _code_
+* You must generate a folder (give a name) with additional 4 folders contained within: **_input_**, **_output_**, **_code_**, **_tmp_**.
+* Save raw data in **_input_**
+* Save Stata codes in **_code_**
 * Edit your path folder between lines 16 - 22 in the code [**inmet.do**](./code/inmet.do).
-* Run the code
-* It generates a database *inmet.dta* in the folder _output_
+* Run the code [**inmet.do**](./code/inmet.do)
+* It generates a database **inmet.dta** in the folder **_output_**
  
