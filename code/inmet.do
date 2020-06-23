@@ -15,11 +15,10 @@ else if "`c(username)'" == "f.cavalcanti"   {
     global ROOT "C:/Users/f.cavalcanti/Dropbox/drought_corruption/build"
 }
 
-global inpdir5_munic	"${ROOT}/5_municipalities_details/output"
-global datadir			"${ROOT}/1_inmet/input"
-global dataout			"${ROOT}/1_inmet/output"
-global codedir			"${ROOT}/1_inmet/code"
-global tmp				"${ROOT}/1_inmet/tmp"
+global datadir			"${ROOT}/INMET/input"
+global dataout			"${ROOT}/INMET/output"
+global codedir			"${ROOT}/INMET/code"
+global tmp				"${ROOT}/INMET/tmp"
 
 * extract files .csv
 
@@ -154,7 +153,7 @@ destring alt, replace
 save "$tmp\stations.dta", replace
 
 * use data from brazilian municipalities
-use "$inpdir5_munic\brazilian_municipalities.dta", clear
+use "$datadir\brazilian_municipalities.dta", clear
 
 * expand dataset in order merge each ground station with a municipality
 **	obs: there are 264 ground stations
