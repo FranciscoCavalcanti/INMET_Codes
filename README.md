@@ -12,14 +12,14 @@ The raw data are stored in the folder [input](./input). Specifically:
 
 *  [**brazilian_municipalities.dta**](./input/brazilian_municipalities.dta) codes of Brazilian municipalities.
 
-## Main codes
+## Stata codes
 
 The codes are stored in the folder [code](./code).
 
-* [**inmet.do**](./code/inmet.do):  extract the raw data and generate a .dta database collapsed at the year and municipality level.
+* [**inmet.do**](./code/inmet.do):  Main code. Extract the raw data and generate a .dta database collapsed at the year and municipality level.
 
-* [**_cleaning_data_imnet.do**](./code/_cleaning_data_imnet.do): clean the raw data
+* [**_cleaning_data_imnet.do**](./code/_cleaning_data_imnet.do): Sub code. Clean the raw data
 
-* [**_building_weather_variables.do**](./code/_building_weather_variables.do): generate weather variables
+* [**_building_weather_variables.do**](./code/_building_weather_variables.do): Sub code. Generate weather variables
 
 
