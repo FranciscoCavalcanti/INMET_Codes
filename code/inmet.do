@@ -83,8 +83,7 @@ local dtafiles : dir . files "*.dta"
 display `dtafiles'
 
 foreach file in `dtafiles' {		
-	append using "${tmp}/`file'"
-		
+	append using "${tmp}/`file'"		
 }
 
 * manipulating the data to improve the format
@@ -302,26 +301,26 @@ save "${dataout}/inmet.dta", replace
 cd  "${tmp}/"
 local datafiles: dir "${tmp}/" files "*.dta"
 foreach datafile of local datafiles {
-        rm `datafile'
+	rm `datafile'
 }
 
 cd  "${tmp}/"
 local datafiles: dir "${tmp}/" files "*.csv"
 foreach datafile of local datafiles {
-        rm `datafile'
+    rm `datafile'
 }
 
 cd  "${tmp}/"
 local datafiles: dir "${tmp}/" files "*.txt"
 foreach datafile of local datafiles {
-        rm "`datafile'"
+	rm "`datafile'"
 }
 
 
 cd  "${tmp}/"
 local datafiles: dir "${tmp}/" files "*.pdf"
 foreach datafile of local datafiles {
-        rm `datafile'
+	rm `datafile'
 }
 
 * clear all
