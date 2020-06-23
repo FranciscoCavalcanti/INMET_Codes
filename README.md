@@ -4,6 +4,14 @@ Codes in **Stata** to extract the raw data provided by the [INMET - Instituto Na
 
 The data cover monthly information from **1960** to  **2018**. The raw data is stored in the the folder [input](./input). 
 
+## Raw data
+
+The raw data are stored in the folder [input](./input). Specifically:
+
+*  [**INMET_1960_2018.zip**](./input/INMET_1960_2018.zip) It is a compilation of the download of monthly data from all INMET weather stations.
+
+*  [**brazilian_municipalities.dta**](./input/brazilian_municipalities.dta) codes of Brazilian municipalities.
+
 ## Main codes
 
 The codes are stored in the folder [code](./code).
@@ -14,10 +22,4 @@ The codes are stored in the folder [code](./code).
 
 * [**_building_weather_variables.do**](./code/_building_weather_variables.do): generate weather variables
 
-## Raw data
 
-The raw data are stored in the folder [input](./input). Specifically:
-
-*  [**INMET_1960_2018.zip**](./input/INMET_1960_2018.zip) It is a compilation of the download of monthly data from all INMET weather stations.
-
-*  [**brazilian_municipalities.dta**](./input/brazilian_municipalities.dta) codes of Brazilian municipalities.
