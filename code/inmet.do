@@ -161,8 +161,8 @@ save "$tmp\stations.dta", replace
 use "$datadir\brazilian_municipalities.dta", clear
 
 * expand dataset in order merge each ground station with a municipality
-**	obs: there are 264 ground stations
-gen expd = 264
+**	obs: there are 265 ground stations
+gen expd = 265
 expand expd
 by muncoddv, sort: gen id  = _n
 
