@@ -22,9 +22,9 @@ else if "`c(username)'" == "f.cavalcanti"   {
 }
 
 global datadir			"${ROOT}/data_sources/Climatologia/INMET/input"
-global dataout			"${ROOT}data_sources/Climatologia/INMET/output"
-global codedir			"${ROOT}data_sources/Climatologia/INMET/code"
-global tmp				"${ROOT}data_sources/Climatologia/INMET/tmp"
+global dataout			"${ROOT}/data_sources/Climatologia/INMET/output"
+global codedir			"${ROOT}/data_sources/Climatologia/INMET/code"
+global tmp				"${ROOT}/data_sources/Climatologia/INMET/tmp"
 
 * extract files .csv
 
