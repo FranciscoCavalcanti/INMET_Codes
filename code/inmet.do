@@ -15,16 +15,16 @@ version 14.2
 
 * check what your username is in Stata by typing "di c(username)"
 if "`c(username)'" == "Francisco"   {
-    global ROOT "C:/Users/Francisco/Dropbox/drought_corruption/build"
+    global ROOT "C:/Users/Francisco/Dropbox"
 }
 else if "`c(username)'" == "f.cavalcanti"   {
-    global ROOT "C:/Users/f.cavalcanti/Dropbox/drought_corruption/build"
+    global ROOT "C:/Users/f.cavalcanti/Dropbox"
 }
 
-global datadir			"${ROOT}/INMET/input"
-global dataout			"${ROOT}/INMET/output"
-global codedir			"${ROOT}/INMET/code"
-global tmp				"${ROOT}/INMET/tmp"
+global datadir			"${ROOT}/data_sources/Climatologia/INMET/input"
+global dataout			"${ROOT}data_sources/Climatologia/INMET/output"
+global codedir			"${ROOT}data_sources/Climatologia/INMET/code"
+global tmp				"${ROOT}data_sources/Climatologia/INMET/tmp"
 
 * extract files .csv
 
