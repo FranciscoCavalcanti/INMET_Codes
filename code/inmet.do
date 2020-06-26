@@ -164,21 +164,21 @@ use "$datadir\brazilian_municipalities.dta", clear
 **	obs: there are 265 ground stations
 gen expd = 265
 expand expd
-by muncoddv, sort: gen id  = _n
+by id_munic_7, sort: gen id  = _n
 
 * merge with the ground station data set
 merge m:1 id using "$tmp\stations.dta"
 
 //generate the distance of each station for each municipality
-sort  muncoddv id
+sort  id_munic_7 id
 gen distancia_estacao = sqrt((abs(lon - Longitude))^2 + (abs(lat - Latitude))^2)
-sort  muncoddv  distancia_estacao
+sort  id_munic_7  distancia_estacao
 
 gen distancia_estacao2 = distancia_estacao^2
 
 //determine which stations are the least distant
-sort  muncoddv  distancia_estacao2
-by muncoddv: gen menores_distancias = _n
+sort  id_munic_7  distancia_estacao2
+by id_munic_7: gen menores_distancias = _n
 
 * Each municipality is a point
 * When we draw two perpendicular lines where the point of intersection is the municipality
@@ -187,7 +187,7 @@ by muncoddv: gen menores_distancias = _n
 * That is: which is the nearest station of the municipality in the Northwest quadrants? Northeast? South-west? Southeast?
 
 * Define stations in each quadrant
-sort  muncoddv id
+sort  id_munic_7 id
 gen  iten1 = lon - Longitude
 gen iten2 = lat - Latitude
 
@@ -201,10 +201,10 @@ replace  quadrante_nordeste =0 if quadrante_nordeste~=1
 replace  quadrante_sudoeste =0 if quadrante_sudoeste~=1
 replace  quadrante_sudeste =0 if quadrante_sudeste~=1
 drop iten1 iten2
-sort  muncoddv  quadrante_noroeste quadrante_nordeste quadrante_sudoeste quadrante_sudeste distancia_estacao2
-by muncoddv quadrante_noroeste quadrante_nordeste quadrante_sudoeste quadrante_sudeste, sort: gen menores_distancias_por_quadrante = _n
+sort  id_munic_7  quadrante_noroeste quadrante_nordeste quadrante_sudoeste quadrante_sudeste distancia_estacao2
+by id_munic_7 quadrante_noroeste quadrante_nordeste quadrante_sudoeste quadrante_sudeste, sort: gen menores_distancias_por_quadrante = _n
 keep if  menores_distancias_por_quadrante==1
-sort  muncoddv menores_distancias
+sort  id_munic_7 menores_distancias
  
 * define 4 different ways of measuring relevant stations
 
@@ -213,10 +213,10 @@ gen estacao_maneira = 1 if menores_distancias==1
 replace estacao_maneira= 0 if estacao_maneira==.
 
 * second way: distance of the two stations closest to the square and in different quadrants
-sort  muncoddv menores_distancias_por_quadrante menores_distancias
-by muncoddv: gen depois_deleta = _n
-by muncoddv: egen algo = total(distancia_estacao2) if depois_deleta <=2
-by muncoddv: egen iten2 = mean(algo)
+sort  id_munic_7 menores_distancias_por_quadrante menores_distancias
+by id_munic_7: gen depois_deleta = _n
+by id_munic_7: egen algo = total(distancia_estacao2) if depois_deleta <=2
+by id_munic_7: egen iten2 = mean(algo)
 gen estacao_maneira2 = 1 - (distancia_estacao2/iten2)  if depois_deleta <=2 
 replace estacao_maneira2 = 1 - (distancia_estacao2/iten2) if  depois_deleta <=2
 replace estacao_maneira2= 0 if estacao_maneira2==.
@@ -224,32 +224,32 @@ drop  algo iten2
 
 
 * third way: distance of the three stations closest to the square
-sort  muncoddv menores_distancias_por_quadrante menores_distancias
-by muncoddv: egen algo = total(distancia_estacao2) if depois_deleta <=3
-by muncoddv: egen iten2 = mean(algo)
+sort  id_munic_7 menores_distancias_por_quadrante menores_distancias
+by id_munic_7: egen algo = total(distancia_estacao2) if depois_deleta <=3
+by id_munic_7: egen iten2 = mean(algo)
 
 gen iten3 = distancia_estacao2/iten2 if depois_deleta <=3
 replace iten3 = 1/iten3
-by muncoddv, sort: egen iten4 = total(iten3)
+by id_munic_7, sort: egen iten4 = total(iten3)
 gen estacao_maneira3 = iten3/iten4
 replace estacao_maneira3= 0 if estacao_maneira3==.
 drop  algo iten2 iten3 iten4
 
 * fourth way: distance from the nearest four stations to the square
-sort  muncoddv menores_distancias_por_quadrante menores_distancias
-by muncoddv: egen algo = total(distancia_estacao2) if depois_deleta <=4
-by muncoddv: egen iten2 = mean(algo)
+sort  id_munic_7 menores_distancias_por_quadrante menores_distancias
+by id_munic_7: egen algo = total(distancia_estacao2) if depois_deleta <=4
+by id_munic_7: egen iten2 = mean(algo)
 
 gen iten3 = distancia_estacao2/iten2 if depois_deleta <=4
 replace iten3 = 1/iten3
-by muncoddv, sort: egen iten4 = total(iten3)
+by id_munic_7, sort: egen iten4 = total(iten3)
 gen estacao_maneira4 = iten3/iten4
 replace estacao_maneira4= 0 if estacao_maneira4==.
 drop  algo iten2 iten3 iten4 depois_deleta
 
 * delete irrelevant stations
-keep  muncod muncoddv Latitude Longitude altitude area estacao estacao_maneira estacao_maneira2 estacao_maneira3 estacao_maneira4
-gen cod_mun = real( muncoddv)
+keep  id_munic_6 id_munic_7 Latitude Longitude altitude area estacao estacao_maneira estacao_maneira2 estacao_maneira3 estacao_maneira4
+gen codmun = id_munic_7
 egen leao = group(cod_mun)
 
 * to string variable in order to perfectly match in merging process
@@ -264,23 +264,23 @@ tostring Area, replace
 save "$tmp/mun_stations.dta", replace
 
 * merging each station of a municipality with rainfall data from IMNET
-forvalues inst1 = 1(1)5658{
-use "$tmp/mun_stations.dta", clear
-keep if leao == `inst1'
-merge m:m  estacao using "$tmp\inmet.dta"
-keep if _merge==3
-drop _merge
-replace numdiasprecipitacao = 31 if numdiasprecipitacao >= 31
-do "$codedir/_cleaning_data_imnet.do" 
-save "$tmp/cod_mun_`inst1'.dta", replace
-clear
+forvalues inst1 = 1(1)5570{
+	use "$tmp/mun_stations.dta", clear
+	keep if leao == `inst1'
+	merge m:m  estacao using "$tmp\inmet.dta"
+	keep if _merge==3
+	drop _merge
+	replace numdiasprecipitacao = 31 if numdiasprecipitacao >= 31
+	do "$codedir/_cleaning_data_imnet.do" 
+	save "$tmp/cod_mun_`inst1'.dta", replace
+	clear
 }
 
 * append data
 use "$tmp/cod_mun_1.dta", clear
 
-forvalues inst1 = 2(1)5658{
-append using "$tmp/cod_mun_`inst1'.dta"
+forvalues inst1 = 2(1)5570{
+	append using "$tmp/cod_mun_`inst1'.dta"
 }
 
 * generate variable of Regions
@@ -312,6 +312,7 @@ foreach datafile of local datafiles {
 
 cd  "${tmp}/"
 local datafiles: dir "${tmp}/" files "*.csv"
+
 foreach datafile of local datafiles {
     rm `datafile'
 }
