@@ -6,7 +6,7 @@ The data cover monthly information from **1960** to  **2018**. The raw data is s
 
 ## Raw data
 
-The raw data are stored in the folder [input](./input). Specifically:
+The raw data is text files (.txt) that have been downloaded from [INMET](http://www.inmet.gov.br/portal/) and are stored in the folder [input](./input). Specifically:
 
 *  [**INMET_1960_2018.zip**](./input/INMET_1960_2018.zip) It is a compilation of the download of monthly data from all INMET weather stations.
 
