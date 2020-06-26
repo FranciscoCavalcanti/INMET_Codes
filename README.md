@@ -31,3 +31,7 @@ The codes are stored in the folder [code](./code).
 * Run the code [**inmet.do**](./code/inmet.do)
 * It generates a database **inmet.dta** in the folder **_output_**
  
+## Variables
+
+![alt text](https://github.com/FranciscoCavalcanti/INMET_Codes/blob/input/Dicionario IMNET.png?raw=true)
+
