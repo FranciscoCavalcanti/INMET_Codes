@@ -315,8 +315,7 @@ gen uf = real(state)
 drop str_id_munic_7 state
 
 * Graph histogram of evapotranspiration and precipitation
-/*
-twoway (histogram evaporacao, start(0) width(2) color(%65)) ///
+twoway (histogram evapotranspiracao, start(0) width(2) color(%65)) ///
        (histogram chuva, start(0) width(2)  ///
 	   fcolor(none) lcolor(black)), 	/*
 	   */	legend(order(1 "Potential Evapotranspiration" 2 "Precipitation"))	/*
@@ -324,7 +323,10 @@ twoway (histogram evaporacao, start(0) width(2) color(%65)) ///
 	   */	xscale( axis(1) range(0 160) lstyle(none) )	/* how x axis looks
 	   */	title("Overlay of Histograms of Monthly Weather Data", size()) /*
 	   */	xtitle("Millimeter (mm)")
-*/	   
+	   
+	graph save Graph "$dataout\histogram.gph", replace
+	graph use "$dataout\histogram.gph"
+	graph export "$dataout\histogram.png", replace	   
 
 * build weather variables
 do "$codedir/_building_weather_variables.do" 
