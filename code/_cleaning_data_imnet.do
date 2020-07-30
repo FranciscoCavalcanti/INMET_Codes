@@ -135,6 +135,6 @@ label variable umidade "umidade relativar do ar por municipio"
 
 drop teste2 inst1 inst2 peso_novo
 
-keep cod_mun  year month  chuva evaporacao evapotranspiracao nebulosidade insolacao diasdechuva temperatura_media temperatura_max temperatura_min umidade
+keep id_munic_7  year month  chuva evaporacao evapotranspiracao nebulosidade insolacao diasdechuva temperatura_media temperatura_max temperatura_min umidade
  
-by cod_mun year month, sort: drop if _n>1
+by id_munic_7 year month, sort: drop if _n>1
