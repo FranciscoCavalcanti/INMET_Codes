@@ -117,10 +117,10 @@ save "${tmp}/inmet.dta", replace
 use "${tmp}/inmet.dta", clear
 by estacao, sort: drop if _n>1
 keep estacao
-gen exp1 = 58
+gen exp1 = 58 // 1960 + 58 = 2018
 expand exp1
 by estacao, sort: gen year = _n + 1960
-gen exp2 = 12
+gen exp2 = 12 //  12 months
 expand exp2
 by estacao year, sort: gen month = _n
 keep estacao year month
@@ -159,6 +159,20 @@ save "$tmp\stations.dta", replace
 
 * use data from brazilian municipalities
 use "$datadir\brazilian_municipalities.dta", clear
+
+* create a database where there is no missing date
+preserve
+	keep id_munic_7
+	gen exp1 = 58 // 1960 + 58 = 2018
+	expand exp1
+	by id_munic_7, sort: gen year = _n + 1960
+	gen exp2 = 12 //  12 months
+	expand exp2
+	by id_munic_7 year, sort: gen month = _n
+	keep id_munic_7 year month
+* save as temporary to use later
+save "$tmp\nomissingdate.dta", replace
+restore
 
 * expand dataset in order merge each ground station with a municipality
 **	obs: there are 265 ground stations
@@ -250,7 +264,7 @@ drop  algo iten2 iten3 iten4 depois_deleta
 * delete irrelevant stations
 keep  id_munic_6 id_munic_7 Latitude Longitude altitude area estacao estacao_maneira estacao_maneira2 estacao_maneira3 estacao_maneira4
 gen codmun = id_munic_7
-egen leao = group(cod_mun)
+egen leao = group(id_munic_7)
 
 * to string variable in order to perfectly match in merging process
 tostring Latitude, replace
@@ -272,29 +286,45 @@ forvalues inst1 = 1(1)5570{
 	drop _merge
 	replace numdiasprecipitacao = 31 if numdiasprecipitacao >= 31
 	do "$codedir/_cleaning_data_imnet.do" 
-	save "$tmp/cod_mun_`inst1'.dta", replace
+	save "$tmp/id_munic_7_`inst1'.dta", replace
 	clear
 }
 
 * append data
-use "$tmp/cod_mun_1.dta", clear
+use "$tmp/id_munic_7_1.dta", clear
 
 forvalues inst1 = 2(1)5570{
-	append using "$tmp/cod_mun_`inst1'.dta"
+	append using "$tmp/id_munic_7_`inst1'.dta"
 }
 
+* merge with a database where there is no missing date
+sort id_munic_7 year month
+merge 1:1  id_munic_7 year month using "$tmp\nomissingdate.dta"
+drop _merge
+
 * generate variable of Regions
-tostring cod_mun, replace
-gen region = substr(cod_mun,1,1)
-destring cod_mun, replace
+tostring id_munic_7, replace
+gen region = substr(id_munic_7,1,1)
+destring id_munic_7, replace
 destring region, replace
 
 * generate variable of State 
-tostring cod_mun, generate(str_cod_mun)
-gen state = substr(str_cod_mun,1,2)
+tostring id_munic_7, generate(str_id_munic_7)
+gen state = substr(str_id_munic_7,1,2)
 gen uf = real(state)
-drop str_cod_mun state
+drop str_id_munic_7 state
 
+* Graph histogram of evapotranspiration and precipitation
+/*
+twoway (histogram evaporacao, start(0) width(2) color(%65)) ///
+       (histogram chuva, start(0) width(2)  ///
+	   fcolor(none) lcolor(black)), 	/*
+	   */	legend(order(1 "Potential Evapotranspiration" 2 "Precipitation"))	/*
+	   */	yscale( axis(1) range(0 0.04) lstyle(none) )	/* how y axis looks
+	   */	xscale( axis(1) range(0 160) lstyle(none) )	/* how x axis looks
+	   */	title("Overlay of Histograms of Monthly Weather Data", size()) /*
+	   */	xtitle("Millimeter (mm)")
+*/	   
 
 * build weather variables
 do "$codedir/_building_weather_variables.do" 
