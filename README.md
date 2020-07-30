@@ -33,5 +33,5 @@ The codes are stored in the folder [code](./code).
  
 ## Variables
 
-![alt text](https://github.com/FranciscoCavalcanti/INMET_Codes/tree/master/input/DicionarioIMNET.PNG)
+![alt text](https://github.com/FranciscoCavalcanti/INMET_Codes/blob/master/input/DicionarioIMNET.png)
 
